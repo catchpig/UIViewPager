@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -33,6 +34,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener{
     private Timer mTimer;
     private TimerTask mTask;
     private PagerHandler mHandler;
+    private ImagePagerAdapter mImagePagerAdapter;
     private static final int VIEWPAGER_CHANGE = 100;
     public UIViewPager(@NonNull Context context) {
         this(context,null);
@@ -49,6 +51,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener{
         mRadioGroup = v.findViewById(R.id.group);
         mHandler = new PagerHandler();
         mViewPager.addOnPageChangeListener(this);
+        mImagePagerAdapter = new ImagePagerAdapter();
     }
 
     /**
@@ -77,15 +80,16 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener{
         mDelayTime = delayTime;
     }
     private int mCount;
-    public void setCount(int count){
-        mCount = count;
-    }
     /**
      * 设置adapter
-     * @param adapter
+     * @param images
      */
-    public void setAdapter(PagerAdapter adapter){
-        mViewPager.setAdapter(adapter);
+    public void setAdapter(List<String> images){
+        mImagePagerAdapter.setImages(images);
+        mCount = images.size();
+    }
+    public void start(){
+        mViewPager.setAdapter(mImagePagerAdapter);
         initRadioButton();
         startTimer();
     }
@@ -142,6 +146,12 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener{
         }
         mRadioGroup.getChildAt(postion).setEnabled(true);
     }
+
+    /**
+     * dp转px
+     * @param dp
+     * @return
+     */
     private int dpToPxInt(float dp){
         return (int) ((dp * getResources().getDisplayMetrics().density)+0.5);
     }
