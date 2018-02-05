@@ -55,6 +55,11 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener{
      * 是否自动播放,默认不自动播放
      */
     private boolean mAutoPlay = false;
+
+    /**
+     * 设置是否循环播放
+     * @param autoPlay
+     */
     public void setAutoPlay(boolean autoPlay){
         mAutoPlay = autoPlay;
     }
@@ -62,6 +67,11 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener{
      * 循环时间间隔(毫秒)
      */
     private long mDelayTime;
+
+    /**
+     * 设置循环播放时间
+     * @param delayTime
+     */
     public void setDelayTime(long delayTime){
         setAutoPlay(true);
         mDelayTime = delayTime;
