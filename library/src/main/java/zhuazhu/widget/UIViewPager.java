@@ -3,6 +3,7 @@ package zhuazhu.widget;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -185,31 +186,63 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     }
 
     /**
-     * 初始化圆点个数
+     * 指示灯样式
+     */
+    private int mIndicatorStyle = R.drawable.carousel_bg;
+
+    /**
+     * 设置指示灯样式
+     * @param indicatorStyle
+     */
+    public void setIndicatorStyle(@DrawableRes int indicatorStyle) {
+        this.mIndicatorStyle = indicatorStyle;
+    }
+
+    /**
+     * 初始化指示灯个数
      */
     private void initRadioButton() {
         mRadioGroup.removeAllViews();
         for (int i = 0; i < mCount; i++) {
             ImageView img = new ImageView(getContext());
-            img.setImageResource(R.drawable.carousel_bg);
             img.setPadding(dpToPxInt(5), 0, 0, 0);
-            img.setEnabled(false);
+            if(i==0){
+                img.setEnabled(true);
+            }else{
+                img.setEnabled(false);
+            }
+            img.setImageResource(mIndicatorStyle);
             mRadioGroup.addView(img, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams
                     .WRAP_CONTENT);
         }
-        mRadioGroup.getChildAt(0).setEnabled(true);
     }
 
     /**
-     * 设置当前选中圆点
+     * 设置当前选中指示灯
      *
      * @param postion
      */
     private void setCurrentRadio(int postion) {
         for (int i = 0; i < mCount; i++) {
-            mRadioGroup.getChildAt(i).setEnabled(false);
+            View v = mRadioGroup.getChildAt(i);
+            boolean enabled = v.isEnabled();
+            boolean flag = postion == i;
+            if(flag || enabled){
+                ImageView img = new ImageView(getContext());
+                if(flag){
+                    img.setEnabled(true);
+                }
+                if(enabled){
+                    img.setEnabled(false);
+                }
+                mRadioGroup.removeViewAt(i);
+                img.setImageResource(mIndicatorStyle);
+                img.setPadding(dpToPxInt(5), 0, 0, 0);
+                mRadioGroup.addView(img,i, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams
+                        .WRAP_CONTENT));
+            }
+
         }
-        mRadioGroup.getChildAt(postion).setEnabled(true);
     }
 
     /**
@@ -258,7 +291,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
      */
     public void playNext() {
         int cuurent = mViewPager.getCurrentItem()+1;
-        if(mImagePagerAdapter.getCount()>=cuurent){
+        if(cuurent>mImagePagerAdapter.getCount()){
             cuurent = 1;
         }
         mScroller.setScrollDuration(mTranslationSpeed);

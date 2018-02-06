@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setDelayTime(4000);
         mViewPager.setInfiniteLoop(true);
         mViewPager.setTranslationSpeed(2000);
+//        mViewPager.setIndicatorStyle(R.drawable.rectangle_style);
         mViewPager.setImageLoader(new GlideImageLoader());
         mViewPager.start();
     }

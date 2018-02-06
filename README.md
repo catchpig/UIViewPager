@@ -27,8 +27,10 @@
 |setImages(List<String> images)|设置图片数据源|
 |setImageLoader(ImageLoader imageLoader)|设置图片加载处理|
 |setOnItemClickListener(OnItemClickListener listener)|设置图片点击事件|
+|setIndicatorStyle(int indicatorStyle)|设置指示灯样式|
 |start()|启动轮播|
 |destroy()|销毁定时器(必须在activity,fragment,dialog销毁时调用此方法)|
+
 
 ## 3.代码参考
 1.实现ImageLoader接口,选择需要加载图片的第三方库(Glide,Picasso...)如下代码使用的是Glide
@@ -62,7 +64,47 @@
         mViewPager.start();
     }
  ```
-3.在在activity,fragment,dialog销毁时调用destroy()方法,Activity中代码如下
+3.设置指示灯样式代码如下:
+    圆形图标
+```
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:state_enabled="true">
+            <shape
+                android:shape="oval">
+                <size android:width="7dp" android:height="7dp"/>
+                <solid android:color="@color/c_fff"/>
+                <stroke android:width="0.5dp" android:color="@color/c_14000000"/>
+            </shape>
+        </item>
+        <item android:state_enabled="false">
+            <shape
+                android:shape="oval">
+                <size android:width="7dp" android:height="7dp"/>
+                <solid android:color="@color/c_4d000000"/>
+            </shape>
+        </item>
+    </selector>
+```
+    长方形图标
+```
+    <selector xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:state_enabled="true">
+            <shape android:shape="rectangle">
+                <size android:height="4dp" android:width="20dp"/>
+                <solid android:color="@color/c_fff"/>
+                <corners android:radius="1dp"/>
+            </shape>
+        </item>
+        <item android:state_enabled="false">
+            <shape android:shape="rectangle">
+                <size android:height="4dp" android:width="10dp"/>
+                <solid android:color="@color/c_000"/>
+                <corners android:radius="1dp"/>
+            </shape>
+        </item>
+    </selector>
+```
+4.在在activity,fragment,dialog销毁时调用destroy()方法,Activity中代码如下
 ```
     @Override
     protected void onDestroy() {
