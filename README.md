@@ -33,34 +33,34 @@
 ## 3.代码参考
 1.实现ImageLoader接口,选择需要加载图片的第三方库(Glide,Picasso...)如下代码使用的是Glide
 ```
-public class GlideImageLoader implements ImagePagerAdapter.ImageLoader {
-    @Override
-    public void displayImage(ImageView imageView, String path) {
-        Glide.with(imageView.getContext()).load(path).into(imageView);
+    public class GlideImageLoader implements ImagePagerAdapter.ImageLoader {
+        @Override
+        public void displayImage(ImageView imageView, String path) {
+            Glide.with(imageView.getContext()).load(path).into(imageView);
+        }
     }
-}
 ```
 2.方法的实现
-```java
-        private UIViewPager mViewPager;
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
-            List<String> list = new ArrayList<>();
-            for (int i=0;i<5;i++){
-                list.add("http://cdn.mejust" +
-                        ".com/uploadFiles/wisdomprom/promPhoto/20180205/a8bfc926-eac8-45fd-a19c-4fb7c4d788de.jpg");
-            }
-            mViewPager = findViewById(R.id.pager);
-            mViewPager.getLayoutParams().height = (int) ((screenWidth()) / 2.5d);
-            mViewPager.setImages(list);// 设置数据源
-            mViewPager.setDelayTime(4000);//设置轮播间隔时间
-            mViewPager.setInfiniteLoop(true);//设置是否无线循环
-            mViewPager.setTranslationSpeed(2000);//设置平移过度时间
-            mViewPager.setImageLoader(mViewPager.setImageLoader(new GlideImageLoader()););
-            mViewPager.start();
+```
+    private UIViewPager mViewPager;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        List<String> list = new ArrayList<>();
+        for (int i=0;i<5;i++){
+            list.add("http://cdn.mejust.com/uploadFiles/wisdomprom/"+
+            "promPhoto/20180205/a8bfc926-eac8-45fd-a19c-4fb7c4d788de.jpg");
         }
+        mViewPager = findViewById(R.id.pager);
+        mViewPager.getLayoutParams().height = (int) ((screenWidth()) / 2.5d);
+        mViewPager.setImages(list);// 设置数据源
+        mViewPager.setDelayTime(4000);//设置轮播间隔时间
+        mViewPager.setInfiniteLoop(true);//设置是否无线循环
+        mViewPager.setTranslationSpeed(2000);//设置平移过度时间
+        mViewPager.setImageLoader(mViewPager.setImageLoader(new GlideImageLoader()););
+        mViewPager.start();
+    }
  ```
 3.在在activity,fragment,dialog销毁时调用destroy()方法,Activity中代码如下
 ```
