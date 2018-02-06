@@ -3,6 +3,7 @@ package zhuazhu.widget;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -18,7 +19,13 @@ import java.util.List;
 
 public class ImagePagerAdapter extends PagerAdapter {
     public List<String> mImages = new ArrayList<>();
-    private boolean mAutoPlay = false;
+    /**
+     * 是否无限循环
+     */
+    private boolean mInfiniteLoop = false;
+    private int mCount;
+    private OnItemClickListener mListener;
+    private ImageLoader mImageLoader;
     public ImagePagerAdapter(){
 
     }
@@ -27,27 +34,57 @@ public class ImagePagerAdapter extends PagerAdapter {
             mImages = images;
         }
     }
+
+    public void setInfiniteLoop(boolean infiniteLoop) {
+        mInfiniteLoop = infiniteLoop;
+    }
+
+    public void setImageLoader(ImageLoader imageLoader) {
+        mImageLoader = imageLoader;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
     public void setImages(List<String> images){
+        mCount = 0;
         if(images!=null){
             mImages = images;
+            mCount = mImages.size();
         }
     }
     @Override
     public int getCount() {
-        if(mAutoPlay){
+        if(mInfiniteLoop){
             return Integer.MAX_VALUE;
         }else{
-            return mImages.size();
+            return mCount;
         }
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView = new ImageView(container.getContext());
-        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        imageView.setLayoutParams(layoutParams);
-        container.addView(imageView);
-        return imageView;
+    public Object instantiateItem(ViewGroup container, final int position) {
+        ImageView v = new ImageView(container.getContext());
+        final int index = position%mCount;
+        ViewParent vp = v.getParent();
+        if (vp != null) {
+            ViewGroup parent = (ViewGroup) vp;
+            parent.removeView(v);
+        }
+
+        if(mImageLoader !=null){
+            mImageLoader.displayImage(v,mImages.get(index));
+        }
+        if(mListener != null){
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onItemClick(index);
+                }
+            });
+        }
+        container.addView(v);
+        return v;
     }
 
     @Override
@@ -57,6 +94,19 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
+
+    }
+
+    /**
+     * 图片加载处理
+     */
+    public interface ImageLoader {
+        void displayImage(ImageView imageView,String path);
+    }
+    /**
+     * 图片点击监听事件
+     */
+    public interface OnItemClickListener {
+        void onItemClick(int index);
     }
 }

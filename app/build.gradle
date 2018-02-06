@@ -26,4 +26,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':library')
+    //图片异步加载框架
+    implementation ('com.github.bumptech.glide:glide:4.6.1',{
+        exclude group: 'com.android.support'
+    })
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
 }
