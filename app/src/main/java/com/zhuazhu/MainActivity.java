@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         }
         mViewPager = findViewById(R.id.pager);
         mViewPager.getLayoutParams().height = (int) ((screenWidth()) / 2.5d);
-        mViewPager.setAdapter(list);
+        mViewPager.setImages(list);
         mViewPager.setDelayTime(4000);
         mViewPager.setInfiniteLoop(true);
         mViewPager.setImageLoader(new ImagePagerAdapter.ImageLoader() {

@@ -89,13 +89,15 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     private long mDelayTime = 3000;
 
     /**
-     * 设置循环播放时间()
+     * 设置循环播放时间(循环播放时间大于0,将自动循环播放设置为true)
      *
      * @param delayTime
      */
     public void setDelayTime(@IntRange(from = 1) long delayTime) {
-        setAutoPlay(true);
         mDelayTime = delayTime;
+        if(delayTime>0){
+            setAutoPlay(true);
+        }
     }
 
     /**
@@ -110,11 +112,11 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     private int mCount;
 
     /**
-     * 设置adapter
+     * 设置图片数据源
      *
      * @param images
      */
-    public void setAdapter(List<String> images) {
+    public void setImages(List<String> images) {
         mImagePagerAdapter.setImages(images);
         mCount = images.size();
     }
@@ -137,6 +139,9 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
         mImagePagerAdapter.setOnItemClickListener(listener);
     }
 
+    /**
+     * 启动轮播
+     */
     public void start() {
         mImagePagerAdapter.setInfiniteLoop(mInfiniteLoop);
         mViewPager.setAdapter(mImagePagerAdapter);
@@ -180,7 +185,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     }
 
     /**
-     * c
+     * 初始化圆点个数
      */
     private void initRadioButton() {
         mRadioGroup.removeAllViews();
@@ -252,9 +257,13 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
      * 轮播下一张图片
      */
     public void playNext() {
+        int cuurent = mViewPager.getCurrentItem()+1;
+        if(mImagePagerAdapter.getCount()>=cuurent){
+            cuurent = 1;
+        }
         mScroller.setScrollDuration(mTranslationSpeed);
         mScroller.initViewPagerScroll(mViewPager);//这个是设置切换过渡时间为2秒
-        mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+        mViewPager.setCurrentItem(cuurent);
     }
 
     public static class PagerHandler extends Handler {
