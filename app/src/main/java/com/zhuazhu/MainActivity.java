@@ -3,14 +3,10 @@ package com.zhuazhu;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import zhuazhu.widget.ImagePagerAdapter;
 import zhuazhu.widget.UIViewPager;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,12 +25,8 @@ public class MainActivity extends AppCompatActivity {
         mViewPager.setImages(list);
         mViewPager.setDelayTime(4000);
         mViewPager.setInfiniteLoop(true);
-        mViewPager.setImageLoader(new ImagePagerAdapter.ImageLoader() {
-            @Override
-            public void displayImage(ImageView imageView,String path) {
-                Glide.with(MainActivity.this).load(path).into(imageView);
-            }
-        });
+        mViewPager.setTranslationSpeed(2000);
+        mViewPager.setImageLoader(new GlideImageLoader());
         mViewPager.start();
     }
     private int screenWidth(){
