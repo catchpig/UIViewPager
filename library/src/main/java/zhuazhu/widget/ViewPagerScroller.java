@@ -15,13 +15,13 @@ import java.lang.reflect.Field;
  */
 
 public class ViewPagerScroller extends Scroller {
-    private int mScrollDuration = 2000;
+    private int mScrollDuration;
     public ViewPagerScroller(Context context) {
         super(context);
     }
 
     /**
-     * 设置速度速度
+     * 设置速度
      * @param duration
      */
     public void setScrollDuration(int duration){

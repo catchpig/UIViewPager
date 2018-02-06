@@ -1,2 +1,2 @@
 # UIViewPager
-初始化
+[![Release](https://jitpack.io/v/zhuazhu/UIViewPager.svg)](https://jitpack.io/#zhuazhu/UIViewPager)

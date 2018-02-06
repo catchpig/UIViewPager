@@ -61,6 +61,15 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     }
 
     /**
+     * 图片自动平移速度,默认1000
+     */
+    private int  mTranslationSpeed = 1000;
+
+    public void setTranslationSpeed(int translationSpeed) {
+        mTranslationSpeed = translationSpeed;
+    }
+
+    /**
      * 是否自动播放,默认不自动播放
      */
     private boolean mAutoPlay = false;
@@ -243,7 +252,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
      * 轮播下一张图片
      */
     public void playNext() {
-        mScroller.setScrollDuration(1000);
+        mScroller.setScrollDuration(mTranslationSpeed);
         mScroller.initViewPagerScroll(mViewPager);//这个是设置切换过渡时间为2秒
         mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
     }
