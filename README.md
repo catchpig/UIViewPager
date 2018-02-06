@@ -65,7 +65,8 @@
     }
  ```
 3.设置指示灯样式代码如下:
-    圆形图标
+
+------圆形图标:
 ```
     <selector xmlns:android="http://schemas.android.com/apk/res/android">
         <item android:state_enabled="true">
@@ -85,7 +86,9 @@
         </item>
     </selector>
 ```
-    长方形图标
+
+------长方形图标:
+
 ```
     <selector xmlns:android="http://schemas.android.com/apk/res/android">
         <item android:state_enabled="true">
