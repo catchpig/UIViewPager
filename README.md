@@ -5,7 +5,7 @@
 
 使用前，对于Android Studio的用户，可以选择添加:
 在Project的build.gradle中添加:
-   ```
+```
    allprojects {
     	repositories {
     		maven { url 'https://jitpack.io' }
@@ -13,8 +13,8 @@
     }
    ```
 添加依赖:
-```java
-	compile 'com.github.zhuazhu:UIViewPager:last_version'
+```
+    implementation 'com.github.zhuazhu:UIViewPager:last_version'
 ```
 ## 2.方法
 
