@@ -1,7 +1,7 @@
 # UIViewPager
 [![Release](https://jitpack.io/v/zhuazhu/UIViewPager.svg)](https://jitpack.io/#zhuazhu/UIViewPager)
 
-![image](https://github.com/zhuazhu/UIViewPager/blob/master/images/7466622861800032061.png)
+![image](https://github.com/zhuazhu/UIViewPager/blob/master/images/7466622861800032062.png)
 
 ## 1.用法
 
