@@ -1,6 +1,8 @@
 # UIViewPager
 [![Release](https://jitpack.io/v/zhuazhu/UIViewPager.svg)](https://jitpack.io/#zhuazhu/UIViewPager)
 
+![image](https://github.com/zhuazhu/UIViewPager/blob/master/images/746662286180003206.png)
+
 ## 1.用法
 
 使用前，对于Android Studio的用户，可以选择添加:
