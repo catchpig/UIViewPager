@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.pager);
         mViewPager.getLayoutParams().height = (int) ((screenWidth()) / 2.5d);
         mViewPager.setImages(list);
-        mViewPager.setDelayTime(4000);
+        mViewPager.setDelayTime(4);
         mViewPager.setInfiniteLoop(true);
         mViewPager.setTranslationSpeed(2000);
 //        mViewPager.setIndicatorStyle(R.drawable.rectangle_style);

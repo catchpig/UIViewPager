@@ -18,8 +18,9 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import zhuazhu.widget.ImagePagerAdapter.ImageLoader;
 import zhuazhu.widget.ImagePagerAdapter.OnItemClickListener;
@@ -36,8 +37,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     private ViewPager mViewPager;
     private ViewPagerScroller mScroller;
     private RadioGroup mRadioGroup;
-    private Timer mTimer;
-    private TimerTask mTask;
+    private ScheduledExecutorService mExecutorService = Executors.newSingleThreadScheduledExecutor();;
     private PagerHandler mHandler;
     private ImagePagerAdapter mImagePagerAdapter;
     private static final int VIEWPAGER_CHANGE = 100;
@@ -64,7 +64,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     /**
      * 图片自动平移速度,默认1000
      */
-    private int  mTranslationSpeed = 1000;
+    private int mTranslationSpeed = 1000;
 
     public void setTranslationSpeed(int translationSpeed) {
         mTranslationSpeed = translationSpeed;
@@ -85,9 +85,9 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     }
 
     /**
-     * 循环时间间隔(毫秒),默认3000毫秒
+     * 循环时间间隔(秒),默认3秒
      */
-    private long mDelayTime = 3000;
+    private long mDelayTime = 3;
 
     /**
      * 设置循环播放时间(循环播放时间大于0,将自动循环播放设置为true)
@@ -96,7 +96,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
      */
     public void setDelayTime(@IntRange(from = 1) long delayTime) {
         mDelayTime = delayTime;
-        if(delayTime>0){
+        if (delayTime > 0) {
             setAutoPlay(true);
         }
     }
@@ -146,9 +146,9 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     public void start() {
         mImagePagerAdapter.setInfiniteLoop(mInfiniteLoop);
         mViewPager.setAdapter(mImagePagerAdapter);
-        if(mCount<4){
+        if (mCount < 4) {
             mViewPager.setOffscreenPageLimit(mCount);
-        }else{
+        } else {
             mViewPager.setOffscreenPageLimit(4);
         }
         initRadioButton();
@@ -166,23 +166,13 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
         if (mDelayTime <= 0) {
             return;
         }
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
 
-        if (mTask != null) {
-            mTask.cancel();
-            mTask = null;
-        }
-        mTimer = new Timer();
-        mTask = new TimerTask() {
+        mExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 mHandler.sendEmptyMessage(VIEWPAGER_CHANGE);
             }
-        };
-        mTimer.schedule(mTask, mDelayTime, mDelayTime);
+        }, mDelayTime, mDelayTime, TimeUnit.SECONDS);
     }
 
     /**
@@ -192,6 +182,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
 
     /**
      * 设置指示灯样式
+     *
      * @param indicatorStyle
      */
     public void setIndicatorStyle(@DrawableRes int indicatorStyle) {
@@ -206,9 +197,9 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
         for (int i = 0; i < mCount; i++) {
             ImageView img = new ImageView(getContext());
             img.setPadding(dpToPxInt(5), 0, 0, 0);
-            if(i==0){
+            if (i == 0) {
                 img.setEnabled(true);
-            }else{
+            } else {
                 img.setEnabled(false);
             }
             img.setImageResource(mIndicatorStyle);
@@ -227,19 +218,19 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
             View v = mRadioGroup.getChildAt(i);
             boolean enabled = v.isEnabled();
             boolean flag = postion == i;
-            if(flag || enabled){
+            if (flag || enabled) {
                 ImageView img = new ImageView(getContext());
-                if(flag){
+                if (flag) {
                     img.setEnabled(true);
                 }
-                if(enabled){
+                if (enabled) {
                     img.setEnabled(false);
                 }
                 mRadioGroup.removeViewAt(i);
                 img.setImageResource(mIndicatorStyle);
                 img.setPadding(dpToPxInt(5), 0, 0, 0);
-                mRadioGroup.addView(img,i, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams
-                        .WRAP_CONTENT));
+                mRadioGroup.addView(img, i, new ViewGroup.LayoutParams(ViewGroup.LayoutParams
+                        .WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             }
 
         }
@@ -259,15 +250,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
      * 销毁定时器
      */
     public void destroy() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
-
-        if (mTask != null) {
-            mTask.cancel();
-            mTask = null;
-        }
+        mExecutorService.shutdown();
     }
 
     @Override
@@ -290,8 +273,8 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
      * 轮播下一张图片
      */
     public void playNext() {
-        int cuurent = mViewPager.getCurrentItem()+1;
-        if(cuurent>mImagePagerAdapter.getCount()){
+        int cuurent = mViewPager.getCurrentItem() + 1;
+        if (cuurent > mImagePagerAdapter.getCount()) {
             cuurent = 1;
         }
         mScroller.setScrollDuration(mTranslationSpeed);
@@ -308,7 +291,7 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
 
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == VIEWPAGER_CHANGE) {
+            if (msg.what == VIEWPAGER_CHANGE && mPager != null) {
                 mPager.playNext();
             }
         }
