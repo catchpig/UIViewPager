@@ -22,6 +22,7 @@
 
 |方法|描述|
 |:--|:--|
+|setOffscreenPageLimit(int limit)|设置图片预加载个数,默认1|
 |setTranslationSpeed(int translationSpeed)|图片自动平移速度,默认1000|
 |setAutoPlay(boolean autoPlay)|设置是否循环播放(如果设置为true,间隔事件不能为0)|
 |setDelayTime(long delayTime)|设置循环播放时间(循环播放时间大于0,将自动循环播放设置为true)|
