@@ -66,12 +66,6 @@ public class ImagePagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView v = new ImageView(container.getContext());
         final int index = position%mCount;
-        ViewParent vp = v.getParent();
-        if (vp != null) {
-            ViewGroup parent = (ViewGroup) vp;
-            parent.removeView(v);
-        }
-
         if(mImageLoader !=null){
             mImageLoader.displayImage(v,mImages.get(index));
         }
@@ -94,7 +88,8 @@ public class ImagePagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-
+        ImageView v = (ImageView) object;
+        container.removeView(v);
     }
 
     /**

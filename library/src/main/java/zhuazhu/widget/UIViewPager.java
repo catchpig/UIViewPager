@@ -62,6 +62,13 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
     }
 
     /**
+     * 设置预加载个数(不设置默认为1)
+     * @param limit
+     */
+    public void setOffscreenPageLimit(int limit){
+        mViewPager.setOffscreenPageLimit(limit);
+    }
+    /**
      * 图片自动平移速度,默认1000
      */
     private int mTranslationSpeed = 1000;
