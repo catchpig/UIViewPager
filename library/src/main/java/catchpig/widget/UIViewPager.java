@@ -19,7 +19,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.List;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import catchpig.widget.ImagePagerAdapter.ImageLoader;
@@ -165,6 +167,8 @@ public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeLi
         startTimer();
     }
 
+    private RunnableScheduledFuture mTimer;
+
     /**
      * 开启时间定时器轮播
      */
@@ -176,8 +180,10 @@ public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeLi
         if (mDelayTime <= 0) {
             return;
         }
-
-        mExecutorService.scheduleAtFixedRate(new Runnable() {
+        if (mTimer != null && mTimer.isPeriodic()) {
+            return;
+        }
+        mTimer = (RunnableScheduledFuture) mExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
                 mHandler.sendEmptyMessage(VIEWPAGER_CHANGE);
