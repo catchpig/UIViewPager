@@ -1,4 +1,4 @@
-package zhuazhu.widget;
+package catchpig.widget;
 
 import org.junit.Test;
 

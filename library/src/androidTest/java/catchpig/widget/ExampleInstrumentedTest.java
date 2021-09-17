@@ -1,4 +1,4 @@
-package zhuazhu.widget;
+package catchpig.widget;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

@@ -1,10 +1,10 @@
-package zhuazhu.widget;
+package catchpig.widget;
 
-import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +26,13 @@ public class ImagePagerAdapter extends PagerAdapter {
     private int mCount;
     private OnItemClickListener mListener;
     private ImageLoader mImageLoader;
-    public ImagePagerAdapter(){
+
+    public ImagePagerAdapter() {
 
     }
-    public ImagePagerAdapter(List<String> images){
-        if(images!=null){
+
+    public ImagePagerAdapter(List<String> images) {
+        if (images != null) {
             mImages = images;
         }
     }
@@ -46,18 +48,20 @@ public class ImagePagerAdapter extends PagerAdapter {
     public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
-    public void setImages(List<String> images){
+
+    public void setImages(List<String> images) {
         mCount = 0;
-        if(images!=null){
+        if (images != null) {
             mImages = images;
             mCount = mImages.size();
         }
     }
+
     @Override
     public int getCount() {
-        if(mInfiniteLoop){
+        if (mInfiniteLoop) {
             return Integer.MAX_VALUE;
-        }else{
+        } else {
             return mCount;
         }
     }
@@ -65,11 +69,11 @@ public class ImagePagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         ImageView v = new ImageView(container.getContext());
-        final int index = position%mCount;
-        if(mImageLoader !=null){
-            mImageLoader.displayImage(v,mImages.get(index));
+        final int index = position % mCount;
+        if (mImageLoader != null) {
+            mImageLoader.displayImage(v, mImages.get(index));
         }
-        if(mListener != null){
+        if (mListener != null) {
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,8 +100,9 @@ public class ImagePagerAdapter extends PagerAdapter {
      * 图片加载处理
      */
     public interface ImageLoader {
-        void displayImage(ImageView imageView,String path);
+        void displayImage(ImageView imageView, String path);
     }
+
     /**
      * 图片点击监听事件
      */

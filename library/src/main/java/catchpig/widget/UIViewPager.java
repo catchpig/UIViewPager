@@ -1,14 +1,8 @@
-package zhuazhu.widget;
+package catchpig.widget;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,13 +11,19 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import zhuazhu.widget.ImagePagerAdapter.ImageLoader;
-import zhuazhu.widget.ImagePagerAdapter.OnItemClickListener;
+import catchpig.widget.ImagePagerAdapter.ImageLoader;
+import catchpig.widget.ImagePagerAdapter.OnItemClickListener;
 
 /**
  * 创建时间:2018-02-05 17:11<br/>
@@ -33,11 +33,12 @@ import zhuazhu.widget.ImagePagerAdapter.OnItemClickListener;
  * 描述:在Fragment,Activity,Dialog关闭的时候,必须调UIViewPager的destroy()接口
  */
 
-public class UIViewPager extends FrameLayout implements OnPageChangeListener {
+public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeListener {
     private ViewPager mViewPager;
     private ViewPagerScroller mScroller;
     private RadioGroup mRadioGroup;
-    private ScheduledExecutorService mExecutorService = Executors.newSingleThreadScheduledExecutor();;
+    private ScheduledExecutorService mExecutorService = Executors.newSingleThreadScheduledExecutor();
+    ;
     private PagerHandler mHandler;
     private ImagePagerAdapter mImagePagerAdapter;
     private static final int VIEWPAGER_CHANGE = 100;
@@ -63,11 +64,13 @@ public class UIViewPager extends FrameLayout implements OnPageChangeListener {
 
     /**
      * 设置预加载个数(不设置默认为1)
+     *
      * @param limit
      */
-    public void setOffscreenPageLimit(int limit){
+    public void setOffscreenPageLimit(int limit) {
         mViewPager.setOffscreenPageLimit(limit);
     }
+
     /**
      * 图片自动平移速度,默认1000
      */

@@ -4,7 +4,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import zhuazhu.widget.ImagePagerAdapter;
+import catchpig.widget.ImagePagerAdapter;
 
 /**
  * 创建时间:2018-02-06 12:56<br/>

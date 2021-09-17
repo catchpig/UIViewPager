@@ -1,8 +1,9 @@
-package zhuazhu.widget;
+package catchpig.widget;
 
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.widget.Scroller;
+
+import androidx.viewpager.widget.ViewPager;
 
 import java.lang.reflect.Field;
 
@@ -16,15 +17,17 @@ import java.lang.reflect.Field;
 
 public class ViewPagerScroller extends Scroller {
     private int mScrollDuration;
+
     public ViewPagerScroller(Context context) {
         super(context);
     }
 
     /**
      * 设置速度
+     *
      * @param duration
      */
-    public void setScrollDuration(int duration){
+    public void setScrollDuration(int duration) {
         this.mScrollDuration = duration;
     }
 
@@ -39,13 +42,12 @@ public class ViewPagerScroller extends Scroller {
     }
 
 
-
     public void initViewPagerScroll(ViewPager viewPager) {
         try {
             Field mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             mScroller.set(viewPager, this);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
