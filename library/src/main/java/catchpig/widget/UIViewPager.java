@@ -227,13 +227,13 @@ public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeLi
     /**
      * 设置当前选中指示灯
      *
-     * @param postion
+     * @param position
      */
-    private void setCurrentRadio(int postion) {
+    private synchronized void setCurrentRadio(int position) {
         for (int i = 0; i < mCount; i++) {
             View v = mRadioGroup.getChildAt(i);
             boolean enabled = v.isEnabled();
-            boolean flag = postion == i;
+            boolean flag = position == i;
             if (flag || enabled) {
                 ImageView img = new ImageView(getContext());
                 if (flag) {
