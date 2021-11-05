@@ -1,7 +1,7 @@
 # UIViewPager
-[![Release](https://jitpack.io/v/zhuazhu/UIViewPager.svg)](https://jitpack.io/#zhuazhu/UIViewPager)
+[![](https://jitpack.io/v/com.gitee.catchpig/UIViewPager.svg)](https://jitpack.io/#com.gitee.catchpig/UIViewPager)
 
-![image](https://github.com/zhuazhu/UIViewPager/blob/master/images/7466622861800032062.png)
+![image](https://gitee.com/catchpig/UIViewPager/tree/master/images7466622861800032062.png)
 
 ## 1.用法
 
@@ -15,8 +15,14 @@
     }
    ```
 添加依赖:
+> Gitee
 ```
-    implementation 'com.github.zhuazhu:UIViewPager:last_version'
+    implementation 'com.gitee.catchpig:UIViewPager:last_version'
+```
+
+> Github
+```
+    implementation 'com.github.catchpig:UIViewPager:last_version'
 ```
 ## 2.方法
 
