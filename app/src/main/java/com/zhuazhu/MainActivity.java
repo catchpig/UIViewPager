@@ -38,10 +38,4 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         return dm.widthPixels;
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mViewPager.destroy();
-    }
 }

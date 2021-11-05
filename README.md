@@ -45,11 +45,11 @@
 |setOnItemClickListener(OnItemClickListener listener)|设置图片点击事件|
 |setIndicatorStyle(int indicatorStyle)|设置指示灯样式|
 |start()|启动轮播|
-|destroy()|销毁定时器(必须在activity,fragment,dialog销毁时调用此方法)|
+|bindLifecycle(Fragment fragment)|将控件和Fragment的lifecycle做生命周期绑定|
 
 
 ## 3.代码参考
-1.实现ImageLoader接口,选择需要加载图片的第三方库(Glide,Picasso...)如下代码使用的是Glide
+### 1.实现ImageLoader接口,选择需要加载图片的第三方库(Glide,Picasso...)如下代码使用的是Glide
 ```
     public class GlideImageLoader implements ImagePagerAdapter.ImageLoader {
         @Override
@@ -58,7 +58,7 @@
         }
     }
 ```
-2.方法的实现
+### 2.方法的实现
 ```
     private UIViewPager mViewPager;
     @Override
@@ -80,9 +80,9 @@
         mViewPager.start();
     }
  ```
-3.设置指示灯样式代码如下:
+### 3.设置指示灯样式代码如下:
 
-------圆形图标:
+> 圆形图标:
 ```
     <selector xmlns:android="http://schemas.android.com/apk/res/android">
         <item android:state_enabled="true">
@@ -103,7 +103,7 @@
     </selector>
 ```
 
-------长方形图标:
+> 长方形图标:
 
 ```
     <selector xmlns:android="http://schemas.android.com/apk/res/android">
@@ -123,11 +123,7 @@
         </item>
     </selector>
 ```
-4.在在activity,fragment,dialog销毁时调用destroy()方法,Activity中代码如下
-```
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mViewPager.destroy();
-    }
-```
+### 4.生命周期绑定
+
++ 如果控件是在Activity上,控件内部自动和Activity的lifecycle做了生命周期的绑定
++ 如果控件是在Fragment上,则需要调用bindLifecycle方法,将控件和Fragment的lifecycle做生命周期的绑定

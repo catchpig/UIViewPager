@@ -15,13 +15,18 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import catchpig.widget.ImagePagerAdapter.ImageLoader;
@@ -32,15 +37,14 @@ import catchpig.widget.ImagePagerAdapter.OnItemClickListener;
  * 创建人: 李涛<br/>
  * 修改人: 李涛<br/>
  * 修改时间: 2018-02-05 17:11<br/>
- * 描述:在Fragment,Activity,Dialog关闭的时候,必须调UIViewPager的destroy()接口
+ * 描述:将UIViewPager加入lifecycle,在Activity,Fragment销毁的时候,定时器会自动cancel
  */
 
-public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeListener {
+public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeListener, LifecycleObserver {
     private ViewPager mViewPager;
     private ViewPagerScroller mScroller;
     private RadioGroup mRadioGroup;
     private ScheduledExecutorService mExecutorService = Executors.newSingleThreadScheduledExecutor();
-    ;
     private PagerHandler mHandler;
     private ImagePagerAdapter mImagePagerAdapter;
     private static final int VIEWPAGER_CHANGE = 100;
@@ -62,6 +66,21 @@ public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeLi
         mHandler = new PagerHandler(this);
         mViewPager.addOnPageChangeListener(this);
         mImagePagerAdapter = new ImagePagerAdapter();
+        bindLifecycle(context);
+    }
+
+    /**
+     * 如果控件实在Fragment中,调用此方法,将控件和fragment的lifecycle做生命周期绑定
+     * @param fragment
+     */
+    public void bindLifecycle(Fragment fragment) {
+        fragment.getLifecycle().addObserver(this);
+    }
+
+    private void bindLifecycle(Context context) {
+        if (context instanceof AppCompatActivity) {
+            ((AppCompatActivity) context).getLifecycle().addObserver(this);
+        }
     }
 
     /**
@@ -262,10 +281,9 @@ public class UIViewPager extends FrameLayout implements ViewPager.OnPageChangeLi
         return (int) ((dp * getResources().getDisplayMetrics().density) + 0.5);
     }
 
-    /**
-     * 销毁定时器
-     */
-    public void destroy() {
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    protected void onDestroy() {
+        //销毁定时器
         mExecutorService.shutdown();
     }
 
